@@ -30,7 +30,6 @@ n = int(len(data)*0.9)
 train_data = data[:n]
 val_data = data[n:]
 
-
 def get_batch(train):
     data = train_data if train else val_data
     ix = torch.randint(len(data)-block_size, (batch_size,))
@@ -53,7 +52,6 @@ def estimate_loss():
     m.train()
     return out
 
-
 class BigramLanguageModel(nn.Module):
 
     def __init__(self):
@@ -71,7 +69,7 @@ class BigramLanguageModel(nn.Module):
         token_emb = self.token_embedding_table(idx) # (B,T,C)
         pos_emb = self.position_embedding_table(torch.arange(T, device=device)) # (T,C)
         x = token_emb + pos_emb # (B,T,C)
-        logits = self.lm(token_emb) # (B,T,vocab_size)
+        logits = self.lm_head(x) # (B,T,vocab_size)
 
         if targets is None:
             loss = None
@@ -87,7 +85,7 @@ class BigramLanguageModel(nn.Module):
         # input (B,T)
 
         for _ in range(max_new_tokens):
-            logits, loss = self(idx) # (B,T,C)
+            logits, loss = self(idx[:, -block_size:]) # (B,T,C)
             logits = logits[:, -1, :] # (B,C)
             probs = F.softmax(logits, dim=1) # (B,C)
             idx_next = torch.multinomial(probs, num_samples=1) # (B,1)
@@ -118,14 +116,14 @@ context = torch.zeros((1, 1), dtype=torch.long, device=device)
 print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
 
 '''
-Step 0: train loss = 4.762716770172119, val loss = 4.750523090362549
-Step 300: train loss = 2.8414525985717773, val loss = 2.831892728805542
-Step 600: train loss = 2.5515248775482178, val loss = 2.55210018157959
-Step 900: train loss = 2.4970433712005615, val loss = 2.506361722946167
-Step 1200: train loss = 2.490762233734131, val loss = 2.4806456565856934
-Step 1500: train loss = 2.4716250896453857, val loss = 2.472615957260132
-Step 1800: train loss = 2.45572566986084, val loss = 2.472358226776123
-Step 2100: train loss = 2.4724764823913574, val loss = 2.4694225788116455
-Step 2400: train loss = 2.463688611984253, val loss = 2.4528136253356934
-Step 2700: train loss = 2.4643714427948, val loss = 2.458897113800049
+Step 0: train loss = 4.460898399353027, val loss = 4.452934741973877
+Step 300: train loss = 2.551314115524292, val loss = 2.537553071975708
+Step 600: train loss = 2.522833824157715, val loss = 2.5273211002349854
+Step 900: train loss = 2.5039236545562744, val loss = 2.5160300731658936
+Step 1200: train loss = 2.505145311355591, val loss = 2.494763135910034
+Step 1500: train loss = 2.4970767498016357, val loss = 2.5007333755493164
+Step 1800: train loss = 2.4782702922821045, val loss = 2.4951112270355225
+Step 2100: train loss = 2.505124568939209, val loss = 2.511206865310669
+Step 2400: train loss = 2.4896931648254395, val loss = 2.481816053390503
+Step 2700: train loss = 2.494795799255371, val loss = 2.4875028133392334
 '''
