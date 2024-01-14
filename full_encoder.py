@@ -3,13 +3,16 @@ import torch.nn as nn
 from torch.nn import functional as F
 
 batch_size = 32
-block_size = 8
-max_iters = 3000
-eval_interval = 300
-learning_rate = 1e-2
+block_size = 128
+max_iters = 5000
+eval_interval = 500
+learning_rate = 3e-4
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 eval_iters = 200
-n_embed = 32
+n_embed = 128
+n_head = 4
+n_layer = 3
+dropout = 0.2
 
 torch.manual_seed(42)
 
@@ -52,13 +55,84 @@ def estimate_loss():
     m.train()
     return out
 
-class BigramLanguageModel(nn.Module):
+class Head(nn.Module):
+    """ one head of self-attention"""
+    def __init__(self, head_size):
+        super().__init__()
+        self.query = nn.Linear(n_embed, head_size, bias=False)
+        self.key = nn.Linear(n_embed, head_size, bias=False)
+        self.value = nn.Linear(n_embed, head_size, bias=False)
+        self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
+        
+        self.dropout = nn.Dropout(dropout)
 
+    def forward(self, x):
+        B,T,C = x.shape
+        q = self.query(x) # (B,T,head_size)
+        k = self.key(x) # (B,T,head_size)
+        head_size = q.shape[-1]
+
+        wei = q @ k.transpose(-2, -1) * head_size**-0.5 # (B,T,T)
+        wei = wei.masked_fill(self.tril[:T, :T] == 0, -torch.inf)
+        wei = F.softmax(wei, dim=-1)
+        wei = self.dropout(wei)
+
+        v = self.query(x) # (B,T,head_size)
+        out = wei @ v # (B,T,head_size)
+        return out
+    
+class MultiHeadAttention(nn.Module):
+    def __init__(self, num_heads, head_size):
+        super().__init__()
+        self.heads = nn.ModuleList([Head(head_size) for _ in range(num_heads)])
+        self.proj = nn.Linear(n_embed, n_embed)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):
+        # x (B,T,C)
+        out = torch.cat([h(x) for h in self.heads], dim=-1) # (B,T,head_size*num_heads)
+        out = self.dropout(self.proj(out)) # projection back into the residual pathway
+        return out
+
+class FeedForward(nn.Module):
+    """ a simple linear layer followed by non-linearity """
+    def __init__(self, n_embed):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(n_embed, 4 * n_embed),
+            nn.ReLU(),
+            nn.Linear(4 * n_embed, n_embed), # projection back into the residual pathway
+            nn.Dropout(dropout),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+  
+class Block(nn.Module):
+    """ Transformer block: communication followed by computation """
+    def __init__(self, n_embed, n_head):
+        super().__init__()
+        head_size = n_embed // n_head
+        self.sa = MultiHeadAttention(n_head, head_size)
+        self.ffwd = FeedForward(n_embed)
+        self.ln1 = nn.LayerNorm(n_embed)
+        self.ln2 = nn.LayerNorm(n_embed)
+
+    def forward(self, x):
+        x = x + self.sa(self.ln1(x))
+        x = x + self.ffwd(self.ln2(x))
+        return x
+
+class FullEncoderModel(nn.Module):
     def __init__(self):
         super().__init__()
 
         self.token_embedding_table = nn.Embedding(vocab_size, n_embed)
         self.position_embedding_table = nn.Embedding(block_size, n_embed)
+
+        self.blocks = nn.Sequential(*[Block(n_embed, n_head) for _ in range(n_layer)])
+
+        self.ln_f = nn.LayerNorm(n_embed)
         self.lm_head = nn.Linear(n_embed, vocab_size)
 
     def forward(self, idx, targets=None):
@@ -69,6 +143,9 @@ class BigramLanguageModel(nn.Module):
         token_emb = self.token_embedding_table(idx) # (B,T,C)
         pos_emb = self.position_embedding_table(torch.arange(T, device=device)) # (T,C)
         x = token_emb + pos_emb # (B,T,C)
+
+        x = self.blocks(x)
+        x = self.ln_f(x)
         logits = self.lm_head(x) # (B,T,vocab_size)
 
         if targets is None:
@@ -92,9 +169,9 @@ class BigramLanguageModel(nn.Module):
             idx = torch.cat((idx, idx_next), dim=1) # (B,T+1)
 
         return idx
-        
 
-model = BigramLanguageModel()
+
+model = FullEncoderModel()
 m = model.to(device)
 
 optimizer = torch.optim.AdamW(m.parameters(), lr=learning_rate)
@@ -114,16 +191,3 @@ for iter in range(max_iters):
 
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
-
-'''
-Step 0: train loss = 4.460898399353027, val loss = 4.452934741973877
-Step 300: train loss = 2.551314115524292, val loss = 2.537553071975708
-Step 600: train loss = 2.522833824157715, val loss = 2.5273211002349854
-Step 900: train loss = 2.5039236545562744, val loss = 2.5160300731658936
-Step 1200: train loss = 2.505145311355591, val loss = 2.494763135910034
-Step 1500: train loss = 2.4970767498016357, val loss = 2.5007333755493164
-Step 1800: train loss = 2.4782702922821045, val loss = 2.4951112270355225
-Step 2100: train loss = 2.505124568939209, val loss = 2.511206865310669
-Step 2400: train loss = 2.4896931648254395, val loss = 2.481816053390503
-Step 2700: train loss = 2.494795799255371, val loss = 2.4875028133392334
-'''

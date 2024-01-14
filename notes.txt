@@ -1,0 +1,193 @@
+
+'''
+No attention
+Step 0: train loss = 4.460898399353027, val loss = 4.452934741973877
+Step 300: train loss = 2.551314115524292, val loss = 2.537553071975708
+Step 600: train loss = 2.522833824157715, val loss = 2.5273211002349854
+Step 900: train loss = 2.5039236545562744, val loss = 2.5160300731658936
+Step 1200: train loss = 2.505145311355591, val loss = 2.494763135910034
+Step 1500: train loss = 2.4970767498016357, val loss = 2.5007333755493164
+Step 1800: train loss = 2.4782702922821045, val loss = 2.4951112270355225
+Step 2100: train loss = 2.505124568939209, val loss = 2.511206865310669
+Step 2400: train loss = 2.4896931648254395, val loss = 2.481816053390503
+Step 2700: train loss = 2.494795799255371, val loss = 2.4875028133392334
+'''
+
+'''
+Head
+Step 0: train loss = 4.224853038787842, val loss = 4.225776195526123
+Step 500: train loss = 2.6497042179107666, val loss = 2.6473021507263184
+Step 1000: train loss = 2.510791301727295, val loss = 2.5128891468048096
+Step 1500: train loss = 2.4773948192596436, val loss = 2.468691349029541
+Step 2000: train loss = 2.4413161277770996, val loss = 2.447798252105713
+Step 2500: train loss = 2.430990219116211, val loss = 2.43332839012146
+Step 3000: train loss = 2.415389060974121, val loss = 2.4054136276245117
+Step 3500: train loss = 2.409149169921875, val loss = 2.407867193222046
+Step 4000: train loss = 2.403576374053955, val loss = 2.405353307723999
+Step 4500: train loss = 2.3880443572998047, val loss = 2.388061285018921
+'''
+
+'''
+MultiHead
+Step 0: train loss = 4.298112392425537, val loss = 4.297417640686035
+Step 500: train loss = 2.6500465869903564, val loss = 2.6540322303771973
+Step 1000: train loss = 2.4923317432403564, val loss = 2.4950144290924072
+Step 1500: train loss = 2.43900203704834, val loss = 2.4294686317443848
+Step 2000: train loss = 2.3835713863372803, val loss = 2.390517234802246
+Step 2500: train loss = 2.3561246395111084, val loss = 2.360990524291992
+Step 3000: train loss = 2.326300859451294, val loss = 2.317032814025879
+Step 3500: train loss = 2.3145644664764404, val loss = 2.3066229820251465
+Step 4000: train loss = 2.2968387603759766, val loss = 2.2974376678466797
+Step 4500: train loss = 2.2726941108703613, val loss = 2.2715604305267334
+'''
+
+'''
+With FeedForward
+Step 0: train loss = 4.174604892730713, val loss = 4.175098419189453
+Step 500: train loss = 2.6241095066070557, val loss = 2.630039691925049
+Step 1000: train loss = 2.467839479446411, val loss = 2.474365472793579
+Step 1500: train loss = 2.394162654876709, val loss = 2.3958077430725098
+Step 2000: train loss = 2.350243330001831, val loss = 2.3508036136627197
+Step 2500: train loss = 2.3148789405822754, val loss = 2.321484327316284
+Step 3000: train loss = 2.289642095565796, val loss = 2.280452013015747
+Step 3500: train loss = 2.2679927349090576, val loss = 2.2715680599212646
+Step 4000: train loss = 2.2627570629119873, val loss = 2.2504777908325195
+Step 4500: train loss = 2.2308809757232666, val loss = 2.2317278385162354
+'''
+
+'''
+Three blocks
+Step 0: train loss = 4.17376184463501, val loss = 4.173799514770508
+Step 500: train loss = 3.0988941192626953, val loss = 3.091243028640747
+Step 1000: train loss = 2.6542041301727295, val loss = 2.66353702545166
+Step 1500: train loss = 2.5345160961151123, val loss = 2.5314230918884277
+Step 2000: train loss = 2.4485325813293457, val loss = 2.4521498680114746
+Step 2500: train loss = 2.4086012840270996, val loss = 2.4071316719055176
+Step 3000: train loss = 2.371917963027954, val loss = 2.371864080429077
+Step 3500: train loss = 2.336360454559326, val loss = 2.3359107971191406
+Step 4000: train loss = 2.300915002822876, val loss = 2.3160195350646973
+Step 4500: train loss = 2.290525436401367, val loss = 2.2922699451446533
+'''
+
+'''
+Three blocks with skip connections
+Step 0: train loss = 4.646462440490723, val loss = 4.642547130584717
+Step 500: train loss = 2.4779038429260254, val loss = 2.4749608039855957
+Step 1000: train loss = 2.353628635406494, val loss = 2.353271722793579
+Step 1500: train loss = 2.2858829498291016, val loss = 2.2751574516296387
+Step 2000: train loss = 2.212136745452881, val loss = 2.229541540145874
+Step 2500: train loss = 2.186800479888916, val loss = 2.1955697536468506
+Step 3000: train loss = 2.162946939468384, val loss = 2.158740282058716
+Step 3500: train loss = 2.1341686248779297, val loss = 2.140216588973999
+Step 4000: train loss = 2.119056463241577, val loss = 2.134289503097534
+Step 4500: train loss = 2.1071906089782715, val loss = 2.1064395904541016
+'''
+
+'''
+x4 extended middle layer in FeedForward
+Step 0: train loss = 4.796504497528076, val loss = 4.783560276031494
+Step 500: train loss = 2.4008290767669678, val loss = 2.4061148166656494
+Step 1000: train loss = 2.271434783935547, val loss = 2.279036283493042
+Step 1500: train loss = 2.2250185012817383, val loss = 2.199939012527466
+Step 2000: train loss = 2.1730713844299316, val loss = 2.1626431941986084
+Step 2500: train loss = 2.1021535396575928, val loss = 2.1046085357666016
+Step 3000: train loss = 2.0797677040100098, val loss = 2.071079969406128
+Step 3500: train loss = 2.074589490890503, val loss = 2.073141574859619
+Step 4000: train loss = 2.026301383972168, val loss = 2.036750078201294
+Step 4500: train loss = 2.01890230178833, val loss = 2.019608974456787
+'''
+
+'''
+LayerNorm
+Step 0: train loss = 4.392009258270264, val loss = 4.384535312652588
+Step 500: train loss = 2.418585777282715, val loss = 2.4236769676208496
+Step 1000: train loss = 2.283717155456543, val loss = 2.289271354675293
+Step 1500: train loss = 2.229513645172119, val loss = 2.208667516708374
+Step 2000: train loss = 2.167768955230713, val loss = 2.157525062561035
+Step 2500: train loss = 2.101797103881836, val loss = 2.105275869369507
+Step 3000: train loss = 2.0721805095672607, val loss = 2.0661942958831787
+Step 3500: train loss = 2.0655441284179688, val loss = 2.0599844455718994
+Step 4000: train loss = 2.0198419094085693, val loss = 2.0279948711395264
+Step 4500: train loss = 2.0064022541046143, val loss = 2.0068514347076416
+'''
+
+'''
+Dropout 0.1 except Head
+Step 0: train loss = 4.392009258270264, val loss = 4.384535312652588
+Step 500: train loss = 2.4375905990600586, val loss = 2.4415698051452637
+Step 1000: train loss = 2.308396100997925, val loss = 2.312298536300659
+Step 1500: train loss = 2.252911329269409, val loss = 2.2318384647369385
+Step 2000: train loss = 2.2008841037750244, val loss = 2.1904137134552
+Step 2500: train loss = 2.14048433303833, val loss = 2.143078565597534
+Step 3000: train loss = 2.120461940765381, val loss = 2.1119611263275146
+Step 3500: train loss = 2.103163242340088, val loss = 2.1011507511138916
+Step 4000: train loss = 2.0693564414978027, val loss = 2.079882860183716
+Step 4500: train loss = 2.053318738937378, val loss = 2.055396795272827
+'''
+
+'''
+Dropout 0.1 with Head
+Step 0: train loss = 4.392009258270264, val loss = 4.384535312652588
+Step 500: train loss = 2.4452407360076904, val loss = 2.450084924697876
+Step 1000: train loss = 2.315145969390869, val loss = 2.3199634552001953
+Step 1500: train loss = 2.2600393295288086, val loss = 2.2406985759735107
+Step 2000: train loss = 2.213362693786621, val loss = 2.2039918899536133
+Step 2500: train loss = 2.1580240726470947, val loss = 2.160707950592041
+Step 3000: train loss = 2.1335947513580322, val loss = 2.1278913021087646
+Step 3500: train loss = 2.11440372467041, val loss = 2.1128041744232178
+Step 4000: train loss = 2.085636615753174, val loss = 2.092379570007324
+Step 4500: train loss = 2.0729970932006836, val loss = 2.073136568069458
+'''
+
+'''
+Dropout 0.2 with Head
+Step 0: train loss = 4.392009258270264, val loss = 4.384535312652588
+Step 500: train loss = 2.46608829498291, val loss = 2.4710047245025635
+Step 1000: train loss = 2.35262393951416, val loss = 2.355536699295044
+Step 1500: train loss = 2.298417091369629, val loss = 2.2783043384552
+Step 2000: train loss = 2.2512595653533936, val loss = 2.241281747817993
+Step 2500: train loss = 2.1998682022094727, val loss = 2.2032127380371094
+Step 3000: train loss = 2.178792953491211, val loss = 2.1727583408355713
+Step 3500: train loss = 2.1611406803131104, val loss = 2.160959005355835
+Step 4000: train loss = 2.1370058059692383, val loss = 2.1425623893737793
+Step 4500: train loss = 2.1216132640838623, val loss = 2.1240131855010986
+'''
+
+'''
+Scaled up hyperparameters
+Step 0: train loss = 4.377959728240967, val loss = 4.378452301025391
+Step 500: train loss = 2.4382450580596924, val loss = 2.4379568099975586
+Step 1000: train loss = 2.2571234703063965, val loss = 2.2540416717529297
+Step 1500: train loss = 2.0930707454681396, val loss = 2.091398239135742
+Step 2000: train loss = 1.9751375913619995, val loss = 1.9705076217651367
+Step 2500: train loss = 1.8798960447311401, val loss = 1.8837878704071045
+Step 3000: train loss = 1.81315279006958, val loss = 1.8116382360458374
+Step 3500: train loss = 1.7634408473968506, val loss = 1.7591007947921753
+Step 4000: train loss = 1.7116299867630005, val loss = 1.712025761604309
+Step 4500: train loss = 1.6795846223831177, val loss = 1.6857481002807617
+'''
+
+'''
+Generated text:
+Plalinequard, the be I naw?
+
+NORGAUD:
+Warwisbrokere where.
+
+CALUS:
+That tent curdin think peacly;
+Whild sables him bust faidn;-my not for,
+Which comestim lieveding tive; thou havan whiles
+And we know make at
+Besentdroughts weret pecless's,-was warw from tho in I shall
+On tabor'd whith rainsel.
+
+Servord not?
+
+BERLANUS:
+Nay for thou Son, as tere
+May, Let yonke my, lady, you father
+To bid tear reggine!
+'Tis too dice therming youly bilach hard,
+Thou fenlyts from nowe lack'd bege dids-feny than mank
+'''
